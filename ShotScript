@@ -1,0 +1,15 @@
+using UnityEngine;
+/// Поведение снаряда
+public class ShotScript : MonoBehaviour
+{
+    // 1 – Переменная дизайнера
+    /// Причиненный вред
+    public int damage = 1;
+    /// Снаряд наносит повреждения игроку или врагам?
+    public bool isEnemyShot = false;
+    void Start()
+    {
+        // Ограниченное время жизни, чтобы избежать утечек
+        Destroy(gameObject, 20); // 20 секунд
+    }
+}
