@@ -1,0 +1,37 @@
+using UnityEngine;
+
+/// Handle hitpoints and damages
+public class HealthScript : MonoBehaviour
+{
+    /// Всего хитпоинтов
+    public int hp = 1;
+    /// Враг или игрок?
+    public bool isEnemy = true;
+    /// Наносим урон и проверяем должен ли объект быть уничтожен
+    public void Damage(int damageCount)
+    {
+        hp -= damageCount;
+
+        if (hp <= 0)
+{
+            // Смерть!
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        // Это выстрел?
+        ShotScript shot = otherCollider.gameObject.GetComponent <ShotScript> ();
+        if (shot != null)
+        {
+            // Избегайте дружественного огня
+            if (shot.isEnemyShot != isEnemy)
+            {
+                Damage(shot.damage);
+                // Уничтожить выстрел
+                Destroy(shot.gameObject);
+            }
+        }
+    }
+}
