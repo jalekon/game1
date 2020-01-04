@@ -35,6 +35,27 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+
+    {
+        bool damagePlayer = false;
+        // Столкновение с врагом
+        EnemyScript enemy = collision.gameObject.GetComponent <EnemyScript> ();
+        if (enemy != null)
+        {
+            // Смерть врага
+            HealthScript enemyHealth = enemy.GetComponent <HealthScript> ();
+            if (enemyHealth != null) enemyHealth.Damage(enemyHealth.hp);
+            damagePlayer = true;
+        }
+        // Повреждения у игрока
+        if (damagePlayer)
+        {
+            HealthScript playerHealth = this.GetComponent <HealthScript> ();
+            if (playerHealth != null) playerHealth.Damage(1);
+        }
+    }
+
     void FixedUpdate()
     {
         // 5 - перемещение игрового объекта
